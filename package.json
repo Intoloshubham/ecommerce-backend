@@ -1,0 +1,35 @@
+{
+  "name": "waterlevelbackend",
+  "version": "1.0.0",
+  "description": "water level",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "date-and-time": "^2.4.0",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "express-ws": "^5.0.2",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.7.0",
+    "mongoose": "^6.3.3",
+    "node-base64-image": "^2.0.4",
+    "node-rtsp-stream": "^0.0.9",
+    "node-rtsp-stream-jsmpeg": "^0.0.2",
+    "nodemailer": "^6.7.5",
+    "path": "^0.12.7",
+    "socket.io": "^4.5.2",
+    "ws": "^7.5.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
