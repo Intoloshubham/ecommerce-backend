@@ -28,7 +28,7 @@ const TeamController = {
         const teamData = new Team({
             name,
             mobile,
-            email,
+            email
         });
 
         try {

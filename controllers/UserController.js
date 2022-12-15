@@ -7,20 +7,25 @@ import Joi from "joi";
 import bcrypt from "bcrypt";
 import JwtService from "../services/JwtService.js";
 import transporter from "../config/emailConfig.js";
-import { EMAIL_FROM,REFRESH_SECRET } from "../config/index.js";
+import { EMAIL_FROM, REFRESH_SECRET } from "../config/index.js";
 
 const UserController = {
-  async userRegister(req, res, next) {
+  async userRegister(req, res, next) { 
+
     const { error } = userSchema.validate(req.body);
+
     if (error) {
       return next(error);
     }
+
     const { name, mobile, email } = req.body;
+
     try {
       const mobile_exist = await User.exists({ mobile: mobile }).collation({
         locale: "en",
         strength: 1,
       });
+
       if (mobile_exist) {
         return next(CustomErrorHandler.alreadyExist("Mobile no already exist"));
       }
@@ -44,19 +49,18 @@ const UserController = {
       name,
       mobile,
       email,
-      password: hashedPassword,
+      password: hashedPassword
     });
 
     try {
       const result = await userData.save();
-             
+
       let info = transporter.sendMail({
         from: EMAIL_FROM, // sender address
         to: email, // list of receivers
-        subject: "Product key & login password ", // Subject line
-        text: " Password  " + password // plain text body
-    });
-
+        subject: "Login password ", // Subject line
+        text: " Password  " + password, // plain text body
+      });
     } catch (err) {
       return next(err);
     }
@@ -108,10 +112,29 @@ const UserController = {
         mobile: data.mobile,
         email: data.email,
       });
-
+      
     } catch (error) {
       return next(error);
     }
+  },
+
+  async logout(req, res, next) {
+    const refreshScema = Joi.object({
+      refresh_token: Joi.string().required(),
+    });
+    const { error } = await refreshScema.validate(req.body);
+    if (error) {
+      return next(error);
+    }
+    const { refresh_token } = req.body;
+    try {
+      await RefreshToken.deleteOne({ token: refresh_token });
+     
+
+    } catch (err) {
+      return next(new Error("Something went wrong in the database"));
+    }
+    return res.send({ status: 200 });
   },
 };
 
