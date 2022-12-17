@@ -16,7 +16,9 @@ import transporter from "../../config/emailConfig.js";
 import { EMAIL_FROM } from "../../config/index.js";
 
 const BussinessController = {
+
   async bussinessLogin(req, res, next) {
+
     const bussinessSchema = Joi.object({
       mobile: Joi.number().required(),
       password: Joi.string().required(),
@@ -50,16 +52,16 @@ const BussinessController = {
         });
       }
 
-      // const payment_exist = await Payment.exists({bussiness_id: exist._id});
-      // if(!payment_exist){
-      //     return res.json({ status:302, bussiness_id:exist._id, message:'Payment not exist.' });
-      // }
+      const payment_exist = await Payment.exists({bussiness_id: exist._id});
+      if(!payment_exist){
+          return res.json({ status:302, bussiness_id:exist._id, message:'Payment not exist.' });
+      }
 
-      // //check admin verify
-      // const check_payment = await Payment.exists({bussiness_id: exist._id, payment_verify:false});
-      // if(check_payment){
-      //     return res.json({ status:303, message:'Please wait until your payment is not verified.' });
-      // }
+      //check admin verify
+      const check_payment = await Payment.exists({bussiness_id: exist._id, payment_verify:false});
+      if(check_payment){
+          return res.json({ status:303, message:'Please wait until your payment is not verified.' });
+      }
     } catch (err) {
       return next(err);
     }
@@ -112,6 +114,7 @@ const BussinessController = {
   },
 
   async store(req, res, next) {
+    
     const bussinessSchema = Joi.object({
       bussiness_name: Joi.string().required(),
       name: Joi.string().required(),

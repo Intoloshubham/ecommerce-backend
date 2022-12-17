@@ -7,7 +7,7 @@ const bussinessSchema = mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String },
     role: { type: String, default: 'Administrator' },
-    // company_verify: { type: Boolean, default: false },
+    bussiness_verify: { type: Boolean, default: false },
 })
 
 export default mongoose.model('Bussiness', bussinessSchema, 'bussinesses');

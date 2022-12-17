@@ -5,7 +5,7 @@ const date = CustomFunction.currentDate();
 const time = CustomFunction.currentTime();
 
 const paymentSchema = mongoose.Schema({
-    company_id: { type: ObjectId, required:true, unique:true },
+    bussiness_id: { type: ObjectId, required:true, unique:true },
     transaction_id: { type:String, default:"I99N99T99O99L99O99" },
     payment: { type:Number, required:true },
     payment_date: { type:String, default:date },
