@@ -7,5 +7,11 @@ export const {
     WS_PORT,
     DATABASE_URL,
     DEBUG_MODE,
-    
+    JWT_SECRET,
+    REFRESH_SECRET,
+    EMAIL_HOST,
+    EMAIL_PORT,
+    EMAIL_USER,
+    EMAIL_PASSWORD,
+    EMAIL_FROM
 } = process.env
