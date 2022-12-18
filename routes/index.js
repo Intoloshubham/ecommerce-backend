@@ -37,7 +37,7 @@ router.delete('/logout-team-member', TeamController.logout);
 
 //user/client
 router.post('/loginUser',UserController.loginUser);
-router.post('/logout-user',UserController.logout);
+router.delete('/logout-user',UserController.logout);
 router.post('/register-bussiness',BussinessController.store);
 
 //designation
@@ -53,7 +53,7 @@ router.post('/payment', PaymentController.store);
 router.post('/bussiness-login', BussinessController.bussinessLogin);
 // router.get('/company', [auth, admin], BussinessController.index);
 // router.post('/bussiness', BussinessController.store);
-router.post('/bussiness-logout', BussinessController.bussinessLogout);
+router.delete('/bussiness-logout', BussinessController.bussinessLogout);
 
 
 
