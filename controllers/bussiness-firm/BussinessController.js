@@ -35,7 +35,7 @@ const BussinessController = {
       if (!exist) {
         return next(
           CustomErrorHandler.notExist(
-            'You are do not exist, please click on "Free Register & Purchase" button for register a new bussiness.'
+            'You do not exist, please click on "Free Register & Purchase" button for register a new bussiness.'
           )
         );
       }

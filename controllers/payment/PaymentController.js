@@ -32,59 +32,79 @@ const PaymentController = {
         const pay = new Payment({
             bussiness_id,
             payment,
-            payment_date:data,
+            payment_date:date,
             payment_time:time,
             payment_status:true
         });
 
         try {
-            const result = await pay.save();
+            const result = await pay.save();       
+            if (result.payment_status==true) {
+                const pay_verify = await Payment.findByIdAndUpdate(
+                    {_id:result._id},
+                    {
+                        payment_verify_date:date,
+                        payment_verify_time:time,
+                        payment_verify:true
+                    },
+                    {new:true}
+                );
+                if (pay_verify) {
+                    await Bussiness.findByIdAndUpdate(
+                        {_id:bussiness_id},
+                        {
+                            bussiness_verify:true
+                        },
+                        {new:true}
+                    );
+                }                
+            }
         } catch (err) {
             return next(err);
         }
         res.send(CustomSuccessHandler.success('Payment success'));
     },
     
-    async paymentVerify(req, res, next){
+    // async paymentVerify(req, res, next){
 
-        const { id, bussiness_id } = req.body;
+    //     const { id, bussiness_id } = req.body;
 
-        try {
-            const exist = await Payment.exists({_id:id}).select('payment_verify');
-            if (!exist) {
-                return next(CustomErrorHandler.notExist('Not exist'));
-            }
-            if (exist.payment_verify === true) {
-                return next(CustomErrorHandler.alreadyExist('Payment is already verified'));
-            }
+    //     try {
+    //         const exist = await Payment.exists({_id:id}).select('payment_verify');
+    //         if (!exist) {
+    //             return next(CustomErrorHandler.notExist('Not exist'));
+    //         }
+    //         if (exist.payment_verify === true) {
+    //             return next(CustomErrorHandler.alreadyExist('Payment is already verified'));
+    //         }
 
-        } catch (err) {
-            return next(err);
-        }
-        try {
-            const pay_verify = await Payment.findByIdAndUpdate(
-                {_id:id},
-                {
-                    payment_verify_date:date,
-                    payment_verify_time:time,
-                    payment_verify:true
-                },
-                {new:true}
-            );
-            if (pay_verify) {
-                await Bussiness.findByIdAndUpdate(
-                    {_id:bussiness_id},
-                    {
-                        bussiness_verify:true
-                    },
-                    {new:true}
-                );
-            }
-        } catch (err) {
-            return next(err);
-        }
-        res.send(CustomSuccessHandler.success('Payment verified su ccessfully'));
-    }
+    //     } catch (err) {
+    //         return next(err);
+    //     }
+    //     try {
+    //         const pay_verify = await Payment.findByIdAndUpdate(
+    //             {_id:id},
+    //             {
+    //                 payment_verify_date:date,
+    //                 payment_verify_time:time,
+    //                 payment_verify:true
+    //             },
+    //             {new:true}
+    //         );
+    //         if (pay_verify) {
+    //             await Bussiness.findByIdAndUpdate(
+    //                 {_id:bussiness_id},
+    //                 {
+    //                     bussiness_verify:true
+    //                 },
+    //                 {new:true}
+    //             );
+    //         }
+    //     } catch (err) {
+    //         return next(err);
+    //     }
+    //     res.send(CustomSuccessHandler.success('Payment verified su ccessfully'));
+    // }
     
 
 }

@@ -8,8 +8,18 @@ import {
   AdminController,
   BussinessController,
   ProductKeyController,
-  PaymentController
+  PaymentController,
+  AttendanceController
 } from "../controllers/index.js";
+
+
+//attendance
+router.get('/attendance/:bussiness_id/:year?/:month?/:user_id?', AttendanceController.index);
+router.get('/check-present/:bussiness_id/:user_id', AttendanceController.checkPresent);
+router.post('/attendance', AttendanceController.attendance);
+router.get('/leaves/:bussiness_id', AttendanceController.getLeaves);
+router.post('/apply-leaves', AttendanceController.applyLeaves);
+router.put('/approve-leaves/:id', AttendanceController.approveLeaves);
 
 
 //admin
@@ -37,7 +47,7 @@ router.delete('/designation/:id',DesignationController.destroy);
 
 //payment
 router.post('/payment', PaymentController.store);
-router.post('/payment-verify',PaymentController.paymentVerify);
+// router.post('/payment-verify',PaymentController.paymentVerify);
 
 router.post('/bussiness-login', BussinessController.bussinessLogin);
 // router.get('/company', [auth, admin], BussinessController.index);

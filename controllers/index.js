@@ -5,3 +5,4 @@ export { default as ProductKeyController } from './auth/ProductKeyController.js'
 export { default as PaymentController} from './payment/PaymentController.js';
 export {default as BussinessController} from './bussiness-firm/BussinessController.js';
 export {default as DesignationController} from './DesignationController.js';
+export {default as AttendanceController} from './user-profile/AttendanceController.js';

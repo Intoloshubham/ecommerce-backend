@@ -12,6 +12,7 @@ import { ObjectID } from "bson";
 
 
 const TeamController = {
+
   async teamRegister(req, res, next) {
     const { error } = teamSchema.validate(req.body);
     if (error) {
@@ -46,7 +47,7 @@ const TeamController = {
       mobile,
       designation,
       email,
-      password: hashedPassword,
+      password: hashedPassword
     });
 
     try {
@@ -64,12 +65,13 @@ const TeamController = {
   },
 
   async loginTeamMember(req, res, next) {
+
     const loginschema = Joi.object({
       mobile: Joi.string()
         .pattern(/^[0-9]{10}$/)
         .required(),
       password: Joi.string().required(),
-      bussiness_id: Joi.string().required(),
+      bussiness_id: Joi.string().required()
     });
 
     const { error } = loginschema.validate(req.body);
@@ -82,7 +84,7 @@ const TeamController = {
     try {
       const data = await Team.findOne({
         mobile: mobile,
-        bussiness_id: bussiness_id,
+        bussiness_id: bussiness_id
       });
       //   const data = await Team.findOne({ mobile: mobile });
       if (!data) {
@@ -101,7 +103,7 @@ const TeamController = {
         "1y",
         REFRESH_SECRET
       );
-
+        
       await RefreshToken.create({ token: refresh_token });
 
       res.json({
