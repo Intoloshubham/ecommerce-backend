@@ -22,6 +22,7 @@ router.post('/apply-leaves', AttendanceController.applyLeaves);
 router.put('/approve-leaves/:id', AttendanceController.approveLeaves);
 
 
+
 //admin
 router.post('/verify-product-key', ProductKeyController.verifyProductKey);
 router.post("/user-register", UserController.userRegister);
