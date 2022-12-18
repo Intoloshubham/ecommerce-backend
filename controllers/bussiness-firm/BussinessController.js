@@ -53,6 +53,7 @@ const BussinessController = {
       }
 
       const payment_exist = await Payment.exists({bussiness_id: exist._id});
+
       if(!payment_exist){
           return res.json({ status:302, bussiness_id:exist._id, message:'Payment not exist.' });
       }
@@ -62,6 +63,7 @@ const BussinessController = {
       if(check_payment){
           return res.json({ status:303, message:'Please wait until your payment is not verified.' });
       }
+      
     } catch (err) {
       return next(err);
     }

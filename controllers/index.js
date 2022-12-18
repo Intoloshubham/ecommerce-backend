@@ -6,3 +6,7 @@ export { default as PaymentController} from './payment/PaymentController.js';
 export {default as BussinessController} from './bussiness-firm/BussinessController.js';
 export {default as DesignationController} from './DesignationController.js';
 export {default as AttendanceController} from './user-profile/AttendanceController.js';
+export {default as ProductCategoryController} from './category/ProductCategoryController.js';
+export {default as ProductController} from './product/ProductController.js';
+// export {default as ProductController} from './product/ProductController.js';
+
