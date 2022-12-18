@@ -189,9 +189,10 @@ const AttendanceController = {
             const current_date = CustomFunction.currentDate();
             const current_time = CustomFunction.currentTime();
             const year = CustomFunction.currentYearMonthDay('YYYY');
-            const month = CustomFunction.currentYearMonthDay('MM')
+            const month = CustomFunction.currentYearMonthDay('MM');
 
             const exist = await Attendance.exists({ user_id: ObjectId(user_id), year:year, month:month });
+
             if (exist) {
                 await Attendance.findOneAndUpdate(
                     {
@@ -212,10 +213,11 @@ const AttendanceController = {
     },
 
     async applyLeaves(req, res, next){
+
         const { bussiness_id, user_id, leavedates } = req.body;
         
         const year = CustomFunction.currentYearMonthDay('YYYY');
-        const month = CustomFunction.currentYearMonthDay('MM')
+        const month = CustomFunction.currentYearMonthDay('MM');
         const month_name = CustomFunction.monthName();
 
         let attendance_main_id;
@@ -268,100 +270,6 @@ const AttendanceController = {
 
         res.send(CustomSuccessHandler.success('Leave apply successfully'));
     },
-
-    // async newstore(req, res, next){
-
-    //     const { user_id, leavedays } = req.body;
-    //     let year = CustomFunction.currentYearMonthDay('YYYY');
-    //     const exist = await Attendance.exists({user_id: ObjectId(user_id), year:year});
-    //     let attendance_main_id;
-    //     try {
-    //         if (!exist) {
-    //             const attendance = new Attendance({
-    //                 user_id,
-    //                 year:year
-    //             });
-    //             const result = await attendance.save();
-    //             attendance_main_id = result._id;
-    //         }else{
-    //             attendance_main_id = exist._id;
-    //         }
-    //     } catch (err) {
-    //         return next(err);
-    //     }
-        
-    //     let month = CustomFunction.currentYearMonthDay('MM')
-    //     let current_date = CustomFunction.currentDate();
-    //     let month_name = CustomFunction.monthName(); // pass 'long' in params to print long month name and default is short
-       
-    //     try {
-    //         const month_exist = await Attendance.exists({_id: { $eq: ObjectId(attendance_main_id) }, months: { $elemMatch: { month: month}, } });
-
-    //         if (!month_exist) {
-    //             await Attendance.findByIdAndUpdate(
-    //                 { _id: ObjectId(attendance_main_id) },
-    //                 {
-    //                     $push:{
-    //                         months: {
-    //                             month:month,
-    //                             month_name:month_name,
-    //                         } 
-    //                     } 
-    //                 },
-    //                 { new: true }
-    //             )
-    //         }
-
-    //         // console.log(month_exist)
-    //     } catch (err) {
-    //         return next(err);
-    //     }
-
-    //     let leave_day_exist;
-    //     try {
-    //         leavedays.forEach( async (list, key) => {
-                
-                
-    //             leave_day_exist = await Attendance.find({
-    //                 _id: { $eq: ObjectId(attendance_main_id) }, 
-    //                 months: { 
-    //                     $elemMatch: { month: month}, 
-    //                 },
-    //                 "months.leavedays.leave_date": list
-    //             })
-
-    //             if (leave_day_exist.length > 0) {
-    //                 return;
-    //             }
-
-    //             const leaveData = await Attendance.findOneAndUpdate(
-    //                 {
-    //                     $and: [
-    //                         {
-    //                             _id: { $eq: ObjectId(attendance_main_id) },
-    //                             months: { $elemMatch: { month: month}, }
-    //                         }
-    //                     ]
-    //                 },
-    //                 {
-    //                     $push:{
-    //                         "months.$.leavedays": {
-    //                             leave_date : list,
-    //                         }
-    //                     }
-    //                 },
-    //                 { new: true }
-    //             );
-
-    //         })
-
-    //     } catch (err) {
-    //         return next(err)
-    //     }
-
-    //     res.send(CustomSuccessHandler.success('Leave apply successfully'));
-    //     // const project_exist = await ProjectTeam.findOne({ project_id: ObjectId(project_id) }).select('_id');
-    // },
 
     async approveLeaves(req, res, next){
         try {
