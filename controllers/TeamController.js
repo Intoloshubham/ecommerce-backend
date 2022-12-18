@@ -3,6 +3,7 @@ import { teamSchema } from "../validators/index.js";
 import CustomErrorHandler from "../services/CustomErrorHandler.js";
 import CustomSuccessHandler from "../services/CustomSuccessHandler.js";
 import transporter from "../config/emailConfig.js";
+import AttendanceController from "./user-profile/AttendanceController.js";
 import bcrypt from "bcrypt";
 import Joi from "joi";
 import { EMAIL_FROM, REFRESH_SECRET } from "../config/index.js";
@@ -10,9 +11,7 @@ import JwtService from "../services/JwtService.js";
 import CustomFunction from "../services/CustomFunction.js";
 import { ObjectID } from "bson";
 
-
 const TeamController = {
-
   async teamRegister(req, res, next) {
     const { error } = teamSchema.validate(req.body);
     if (error) {
@@ -47,7 +46,7 @@ const TeamController = {
       mobile,
       designation,
       email,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     try {
@@ -65,13 +64,12 @@ const TeamController = {
   },
 
   async loginTeamMember(req, res, next) {
-
     const loginschema = Joi.object({
       mobile: Joi.string()
         .pattern(/^[0-9]{10}$/)
         .required(),
       password: Joi.string().required(),
-      bussiness_id: Joi.string().required()
+      bussiness_id: Joi.string().required(),
     });
 
     const { error } = loginschema.validate(req.body);
@@ -84,7 +82,7 @@ const TeamController = {
     try {
       const data = await Team.findOne({
         mobile: mobile,
-        bussiness_id: bussiness_id
+        bussiness_id: bussiness_id,
       });
       //   const data = await Team.findOne({ mobile: mobile });
       if (!data) {
@@ -103,7 +101,7 @@ const TeamController = {
         "1y",
         REFRESH_SECRET
       );
-        
+
       await RefreshToken.create({ token: refresh_token });
 
       res.json({
@@ -120,42 +118,53 @@ const TeamController = {
       return next(error);
     }
   },
+
   async logout(req, res, next) {
-    const refreshScema = Joi.object({
+
+    const refreshSchema = Joi.object({
+      user_id: Joi.string(),
       refresh_token: Joi.string().required(),
     });
-    const { error } = await refreshScema.validate(req.body);
+
+    const { error } = refreshSchema.validate(req.body);
+
     if (error) {
       return next(error);
     }
-    const { refresh_token } = req.body;
-    try {
-      await RefreshToken.deleteOne({ token: refresh_token });
-     
 
+    const { user_id, refresh_token } = req.body;
+
+    const bodyData = {
+      user_id: user_id
+    };
+
+    try {
+      const result = await AttendanceController.attendanceOutTime(bodyData);
+      if (result.status === 200) {
+        await RefreshToken.deleteOne({ token: refresh_token });
+      }
     } catch (err) {
       return next(new Error("Something went wrong in the database"));
     }
     return res.send({ status: 200 });
   },
   async updateTeamDetails(req, res, next) {
-      let document;
+    let document;
     try {
-
-      const { name, mobile, email,designation } = req.body;
+      const { name, mobile, email, designation } = req.body;
 
       document = await Team.findByIdAndUpdate(
         {
-          _id: ObjectID(req.params.id)
+          _id: ObjectID(req.params.id),
         },
         {
           name,
           mobile,
           designation,
-          email
+          email,
         },
         {
-          new: true
+          new: true,
         }
       ).select("-createdAt -updatedAt -__v");
       // const temp=await Team.findByIdAndUpdate({_id:req.params.id})
@@ -164,13 +173,13 @@ const TeamController = {
     }
     res.send({ status: 200, data: document });
   },
-  async destroy(req, res, next){
+  async destroy(req, res, next) {
     const document = await Team.findByIdAndRemove({ _id: req.params.id });
     if (!document) {
-        return next(new Error('Nothing to delete'))
+      return next(new Error("Nothing to delete"));
     }
     return res.json(document);
-},
+  },
 };
 
 export default TeamController;

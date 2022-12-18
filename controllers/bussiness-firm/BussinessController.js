@@ -152,7 +152,7 @@ const BussinessController = {
 
     // Hash password
 
-    const { bussiness_name, name, mobile, email } = req.body;
+    const { bussiness_name, name, mobile, email } = req.body; 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const bussinessTemp = new Bussiness({
