@@ -67,7 +67,7 @@ router.get('/product-category',ProductCategoryController.index);
 
 //product 
 router.post('/product',ProductController.store);
-router.put('/product/:id',ProductController.update);
+router.put('/product-update/:id',ProductController.update);
 router.delete('/product/:id',ProductController.destroy);
 router.get('/product',ProductController.index);
 
