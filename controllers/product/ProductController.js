@@ -10,7 +10,6 @@ import { ObjectID } from "bson";
 import { Product, ProductCategory, RefreshToken } from "../../models/index.js";
 
 const ProductController = {
-
   async index(req, res, next) {
     let documents;
     try {
@@ -24,7 +23,14 @@ const ProductController = {
   async store(req, res, next) {
     const {
       product_name,
+      product_model,
       product_detail,
+      product_brand,
+      product_dimension,
+      product_discount,
+      product_material,
+      product_qty,
+      product_images,
       product_price,
       product_color,
       product_categ_id
@@ -32,7 +38,8 @@ const ProductController = {
     try {
       const product_exist = await Product.exists({
         product_categ_id,
-        product_name: product_name,
+        product_model,
+        product_name: product_name
       }).collation({
         locale: "en",
         strength: 1,
@@ -48,9 +55,16 @@ const ProductController = {
       const productTemp = new Product({
         product_categ_id,
         product_name,
+        product_model,
         product_detail,
+        product_brand,
+        product_dimension,
+        product_discount,
+        product_material,
+        product_qty,
+        product_images,
         product_price,
-        product_color,
+        product_color
       });
       const temp = await productTemp.save();
     } catch (error) {
@@ -64,19 +78,38 @@ const ProductController = {
   async update(req, res, next) {
     let document;
     try {
-      const { product_name, product_detail, product_price, product_color,product_categ_id } =
-        req.body;
+      const {
+        product_categ_id,
+        product_name,
+        product_model,
+        product_detail,
+        product_brand,
+        product_dimension,
+        product_discount,
+        product_material,
+        product_qty,
+        product_images,
+        product_price,
+        product_color
+      } = req.body;
 
       document = await Product.findByIdAndUpdate(
         {
-          _id: ObjectID(req.params.id)
+          _id: ObjectID(req.params.id),
         },
         {
           product_categ_id,
           product_name,
+          product_model,
           product_detail,
+          product_brand,
+          product_dimension,
+          product_discount,
+          product_material,
+          product_qty,
+          product_images,
           product_price,
-          product_color,
+          product_color
         },
         {
           new: true,
