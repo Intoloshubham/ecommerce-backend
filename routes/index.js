@@ -35,7 +35,7 @@ router.post("/team-register", TeamController.teamRegister);
 router.put('/team-update/:id',TeamController.updateTeamDetails);
 router.post('/team-login',TeamController.loginTeamMember);
 router.delete('/team-member/:id', TeamController.destroy);
-router.delete('/logout-team', TeamController.logout);
+router.delete('/team-logout', TeamController.logout);
 
 //user or client
 router.post('/login-user',UserController.loginUser);
@@ -51,8 +51,8 @@ router.delete('/designation/:id',DesignationController.destroy);
 
 // router.post('/payment-verify',PaymentController.paymentVerify);
 router.post('/register-bussiness',BussinessController.store);
-router.post('/bussiness-login', BussinessController.bussinessLogin);
-router.delete('/bussiness-logout', BussinessController.bussinessLogout);
+router.post('/admin-login', BussinessController.bussinessLogin);
+router.delete('/admin-logout', BussinessController.bussinessLogout);
 
 
 
