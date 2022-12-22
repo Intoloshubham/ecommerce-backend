@@ -46,7 +46,7 @@ const TeamController = {
       mobile,
       designation,
       email,
-      password: hashedPassword,
+      password: hashedPassword
     });
 
     try {
@@ -69,7 +69,7 @@ const TeamController = {
         .pattern(/^[0-9]{10}$/)
         .required(),
       password: Joi.string().required(),
-      bussiness_id: Joi.string().required(),
+      // bussiness_id: Joi.string().required(),
     });
 
     const { error } = loginschema.validate(req.body);
@@ -77,12 +77,12 @@ const TeamController = {
     if (error) {
       return next(error);
     }
-    const { mobile, password, bussiness_id } = req.body;
+    const { mobile, password } = req.body;
 
     try {
       const data = await Team.findOne({
         mobile: mobile,
-        bussiness_id: bussiness_id,
+        // bussiness_id: bussiness_id,
       });
       //   const data = await Team.findOne({ mobile: mobile });
       if (!data) {
@@ -108,7 +108,7 @@ const TeamController = {
         status: 200,
         access_token,
         refresh_token,
-        bussiness_id,
+        // bussiness_id,
         _id: data._id,
         name: data.name,
         mobile: data.mobile,
