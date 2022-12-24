@@ -44,7 +44,7 @@ const TeamController = {
       bussiness_id,
       name,
       mobile,
-      designation,
+      designation_id,
       email,
       password: hashedPassword
     });
@@ -160,7 +160,7 @@ const TeamController = {
         {
           name,
           mobile,
-          designation,
+          designation_id,
           email,
         },
         {

@@ -6,6 +6,7 @@ import CustomFunction from "../../services/CustomFunction.js";
 
 const date = CustomFunction.currentDate();
 const time = CustomFunction.currentTime();
+
 const PaymentController = {
 
     // async index(req, res, next){
@@ -19,9 +20,11 @@ const PaymentController = {
             return next(error)
         }
         const {bussiness_id, payment} = req.body;
+        console.log('req.body',req.body);
 
         try {
             const exist = await Payment.exists( { bussiness_id:bussiness_id, payment_status:true } ).collation({ locale: 'en', strength: 1 })
+            console.log("🚀 ~ file: PaymentController.js:26 ~ store ~ exist", exist)
             if (exist) {
                 return next(CustomErrorHandler.alreadyExist('Your payment is already done'));
             }
@@ -39,6 +42,7 @@ const PaymentController = {
 
         try {
             const result = await pay.save();       
+            console.log("🚀 ~ file: PaymentController.js:43 ~ store ~ result", result)
             if (result.payment_status==true) {
                 const pay_verify = await Payment.findByIdAndUpdate(
                     {_id:result._id},
